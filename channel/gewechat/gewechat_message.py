@@ -333,6 +333,7 @@ class GeWeChatMessage(ChatMessage):
         if msg_type == 1:  # Text message
             self.ctype = ContextType.TEXT
             self.content = msg['Data']['Content']['string']
+            logger.debug(f"[gewechat] detected text message from {self.from_user_id}: {self.content}")
         elif msg_type == 34:  # Voice message
             self.ctype = ContextType.VOICE
             if 'ImgBuf' in msg['Data'] and 'buffer' in msg['Data']['ImgBuf'] and msg['Data']['ImgBuf']['buffer']:
@@ -524,7 +525,7 @@ class GeWeChatMessage(ChatMessage):
 
             # 如果是群消息，使用正则表达式去掉wxid前缀和@信息
             self.content = re.sub(f'{self.actual_user_id}:\n', '', self.content)  # 去掉wxid前缀
-            self.content = re.sub(r'@[^\u2005]+\u2005', '', self.content)  # 去掉@信息
+            # self.content = re.sub(r'@[^\u2005]+\u2005', '', self.content)  # 去掉@信息（保留@信息头，以便在不同的群聊中设置不同的昵称）
         else:
             # 如果不是群聊消息，保持结构统一，也要设置actual_user_id和actual_user_nickname
             self.actual_user_id = self.other_user_id

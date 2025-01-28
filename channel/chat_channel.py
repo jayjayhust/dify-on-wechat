@@ -98,6 +98,7 @@ class ChatChannel(Channel):
         if ctype == ContextType.TEXT:
             nick_name_black_list = conf().get("nick_name_black_list", [])
             if context.get("isgroup", False):  # 群聊
+                logger.debug("[chat_channel]receive group message, content=" + content)
                 # 校验关键字
                 match_prefix = check_prefix(content, conf().get("group_chat_prefix"))
                 match_contain = check_contain(content, conf().get("group_chat_keyword"))
@@ -228,6 +229,7 @@ class ChatChannel(Channel):
             elif context.type == ContextType.ACCEPT_FRIEND:  # 好友申请，匹配字符串
                 reply = self._build_friend_request_reply(context)
             elif context.type == ContextType.SHARING:  # 分享信息，当前无默认逻辑
+                logger.debug("[chat_channel]收到分享链接信息，未来进行链接文章的解析处理")
                 pass
             elif context.type == ContextType.FUNCTION or context.type == ContextType.FILE:  # 文件消息及函数调用等，当前无默认逻辑
                 pass

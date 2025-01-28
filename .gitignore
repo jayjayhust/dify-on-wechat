@@ -11,13 +11,13 @@ config.json
 QR.png
 nohup.out
 tmp
-plugins.json
+!plugins.json
 itchat.pkl
 *.log
 user_datas.pkl
 chatgpt_tool_hub/
 plugins/**/
-plugins/**/config.json
+!plugins/**/config.json
 !plugins/bdunit
 !plugins/dungeon
 !plugins/finish

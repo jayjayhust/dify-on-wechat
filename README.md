@@ -98,7 +98,10 @@ docker tag registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine gewe
 
 # 创建数据目录并启动服务
 mkdir -p gewechat/data  
+# linux
 docker run -itd -v ./gewechat/data:/root/temp -p 2531:2531 -p 2532:2532 --restart=always --name=gewe gewe
+# windows(请替换成自己系统的绝对路径)
+docker run -itd -v 'D:\Workspace\InteractiveArts\9.AI\docker_prj\gewechat\data:/root/temp' -p 2531:2531 -p 2532:2532 --restart=always --name=gewe gewe
 ```
 
 #### 配置dify-on-wechat
