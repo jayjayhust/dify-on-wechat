@@ -1,0 +1,269 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 工作流机器人-workflow
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: tool
+      id: 1738112357461-source-1738116476616-target
+      source: '1738112357461'
+      sourceHandle: source
+      target: '1738116476616'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: code
+      id: 1738116476616-source-1738117091049-target
+      source: '1738116476616'
+      sourceHandle: source
+      target: '1738117091049'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: 1738117091049-source-1738113555781-target
+      source: '1738117091049'
+      sourceHandle: source
+      target: '1738113555781'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: end
+      id: 1738113555781-source-1738116545894-target
+      source: '1738113555781'
+      sourceHandle: source
+      target: '1738116545894'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: query
+          max_length: 200
+          options: []
+          required: true
+          type: text-input
+          variable: query
+      height: 89
+      id: '1738112357461'
+      position:
+        x: -48
+        y: 282
+      positionAbsolute:
+        x: -48
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1738117091049'
+          - snippets_text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: deepseek
+        prompt_template:
+        - id: b26db0f4-1ef7-4a36-ac3b-0d812ff20059
+          role: system
+          text: '你是一个乐于助人的助手。
+
+            使用以下内容作为你所学习的知识，放在<context></context> XML标签内。
+
+            <context>
+
+            {{#context#}}
+
+            </context>
+
+            回答用户时：
+
+            如果你不知道，就直说你不知道。如果你在不确定的时候不知道，就寻求澄清。
+
+            避免提及你是从上下文中获取的信息。
+
+            并根据用户问题的语言来回答。'
+        - id: 699d1f0e-ea46-444a-9ad0-2f5ec8dca904
+          role: user
+          text: '{{#1738112357461.query#}}'
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 97
+      id: '1738113555781'
+      position:
+        x: 820
+        y: 282
+      positionAbsolute:
+        x: 820
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: SerpApi
+        provider_id: google
+        provider_name: google
+        provider_type: builtin
+        selected: false
+        title: 谷歌搜索
+        tool_configurations: {}
+        tool_label: 谷歌搜索
+        tool_name: google_search
+        tool_parameters:
+          query:
+            type: mixed
+            value: '{{#1738112357461.query#}}'
+        type: tool
+      height: 81
+      id: '1738116476616'
+      position:
+        x: 231
+        y: 282
+      positionAbsolute:
+        x: 231
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1738113555781'
+          - text
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 89
+      id: '1738116545894'
+      position:
+        x: 1127
+        y: 282
+      positionAbsolute:
+        x: 1127
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "def main(arg1) -> dict:\n    # 提取snippet部分\n    snippets = [result1['snippet']\
+          \ for result1 in arg1[0]['organic_results']]\n\n    # 将snippet部分拼接成文本\n\
+          \    snippets_text = '\\n'.join(snippets)\n    return {'snippets_text':\
+          \ snippets_text}\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          snippets_text:
+            children: null
+            type: string
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1738116476616'
+          - json
+          variable: arg1
+      height: 53
+      id: '1738117091049'
+      position:
+        x: 520
+        y: 282
+      positionAbsolute:
+        x: 520
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 126.57075678250374
+      y: 30.514471568483685
+      zoom: 0.8705505632961241
