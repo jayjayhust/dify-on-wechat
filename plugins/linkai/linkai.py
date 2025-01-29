@@ -44,7 +44,7 @@ class LinkAI(Plugin):
             return
 
         context = e_context['context']
-        if context.type not in [ContextType.TEXT, ContextType.IMAGE, ContextType.IMAGE_CREATE, ContextType.FILE,
+        if context.type not in [ContextType.IMAGE, ContextType.IMAGE_CREATE, ContextType.FILE,
                                 ContextType.SHARING]:
             # filter content no need solve
             return
