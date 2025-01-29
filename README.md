@@ -58,7 +58,7 @@ Dify接入微信生态的**详细教程**请查看文章 [**手摸手教你把 D
 - [ ] **飞书** 待测试
 
 # TO DO LIST
-- [ ] **日常事件主动触发** 在chat_channel.py中增加daily routine workflow的支持（开对应的线程）
+- [ ] **日常事件主动触发** 在chat_channel.py中增加daily routine workflow的支持（开对应的线程）[代码参考](https://github.com/jayjayhust-back/chatgpt-on-wechat/blob/master/channel/chat_channel.py#L70)
 
 # 交流群
 
