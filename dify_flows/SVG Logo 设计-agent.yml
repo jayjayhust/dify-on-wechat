@@ -36,6 +36,18 @@ model_config:
       tool_name: vectorizer
       tool_parameters:
         mode: ''
+    - enabled: true
+      provider_id: cogview
+      provider_name: cogview
+      provider_type: builtin
+      tool_label: CogView 3 绘画
+      tool_name: cogview3
+      tool_parameters:
+        n: ''
+        prompt: ''
+        quality: ''
+        size: ''
+        style: ''
   annotation_reply:
     enabled: false
   chat_prompt_config: {}
@@ -94,7 +106,7 @@ model_config:
 
     1. 理解用户的需求。
 
-    2. 使用“dalle3”工具绘制设计。
+    2. 使用“cogview3”工具绘制设计。
 
     3. 使用“vectorizer”工具将图像转换成svg格式，以便进一步使用。'
   prompt_type: simple

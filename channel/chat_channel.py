@@ -32,6 +32,12 @@ class ChatChannel(Channel):
         _thread = threading.Thread(target=self.consume)
         _thread.setDaemon(True)
         _thread.start()
+        _thread_send_heartbeat = threading.Thread(target=self.send_heartbeat)
+        _thread_send_heartbeat.setDaemon(True)
+        _thread_send_heartbeat.start()
+        _thread_send_greeting = threading.Thread(target=self.send_greeting)
+        _thread_send_greeting.setDaemon(True)
+        _thread_send_greeting.start()
 
     # 根据消息构造context，消息内容相关的触发项写在这里
     def _compose_context(self, ctype: ContextType, content, **kwargs):
@@ -53,7 +59,7 @@ class ChatChannel(Channel):
             user_data = conf().get_user_data(cmsg.from_user_id)
             context["openai_api_key"] = user_data.get("openai_api_key")
             context["gpt_model"] = user_data.get("gpt_model")
-            if context.get("isgroup", False):
+            if context.get("isgroup", False):  # 群聊
                 group_name = cmsg.other_user_nickname
                 group_id = cmsg.other_user_id
                 context["group_name"] = group_name
@@ -83,7 +89,7 @@ class ChatChannel(Channel):
                     return None
                 context["session_id"] = session_id
                 context["receiver"] = group_id
-            else:
+            else:  # 单聊
                 context["session_id"] = cmsg.other_user_id
                 context["receiver"] = cmsg.other_user_id
             e_context = PluginManager().emit_event(EventContext(Event.ON_RECEIVE_MESSAGE, {"channel": self, "context": context}))
@@ -402,6 +408,58 @@ class ChatChannel(Channel):
                     logger.info("Cancel {} messages in session {}".format(cnt, session_id))
                 self.sessions[session_id][0] = Dequeue()
 
+    # 发送心跳消息给服务器，单独线程
+    def send_heartbeat(self):
+        while True:
+            time.sleep(60.0)  # 休眠60秒
+            logger.debug("heartbeat thread is running...")
+
+    # 发送群日推送，单独线程
+    def send_greeting(self):
+        while True:
+            pass
+
+            # from lib import itchat
+            # import datetime
+            # current_time = datetime.datetime.now().strftime("%H:%M:%S")
+            # group_daily_message_white_list = conf().get("group_daily_message_white_list", [])
+            # # itchat.get_chatrooms(update=True)  # 获取群聊，注意群必须保持到通讯录，否则可能会找不到群（https://www.cnblogs.com/rgcLOVEyaya/p/RGC_LOVE_YAYA_1075days.html）
+
+            # if len(group_daily_message_white_list) > 0:
+            #     for group_name in group_daily_message_white_list:
+            #         # 参考示例：https://vimsky.com/examples/detail/python-method-itchat.search_chatrooms.html
+            #         target_rooms = itchat.search_chatrooms(name=group_name)
+            #         # logger.debug("chat group==>{}<===search info: {}".format(group_name, target_rooms))
+            #         if target_rooms and len(target_rooms) > 0 and ("09:00:00" <= current_time < "09:59:59") and (self.greeting_group_status[group_name] == False):  # 设定触发时间范围
+            #             # 提取当日温馨小贴士，在群聊里发送
+            #             year_month_day = datetime.datetime.now().strftime('%Y-%m-%d')  # 形如：2023-11-04
+            #             group_daily_message_list = conf().get("group_daily_message", [])
+            #             if len(group_daily_message_list) > 0:
+            #                 for tmp_dict in group_daily_message_list:
+            #                     for tmp_key in tmp_dict.keys():
+            #                         if tmp_key == year_month_day:
+            #                             self.greeting_group_status[group_name] = True
+            #                             logger.debug("send group hint to {}!".format(group_name))
+            #                             target_rooms[0].send_msg(tmp_dict[tmp_key])
+            #                             time.sleep(5)  # 休眠5秒，避免群发消息太快
+            #                             break
+            #         elif target_rooms and len(target_rooms) > 0 and ("00:00:00" <= current_time < "00:59:59"):  # 设定群消息已群发记录的清零时间范围
+            #             self.greeting_group_status[group_name] = False
+
+            # # 暂时把机器人问答的群聊计数器清零逻辑放到这里，后面尽量改到另外一个线程
+            # group_daily_message_counter_limit = conf().get("group_daily_message_counter_limit", {})
+            # if len(group_daily_message_counter_limit) > 0:
+            #     if ("00:00:00" <= current_time < "00:59:59"):  # 设定触发时间范围
+            #         if self.group_daily_message_counter_list_clear_flag == False:
+            #             for key in group_daily_message_counter_limit:
+            #                 self.group_daily_message_counter_list[key] = 0  # 群聊计数器清零
+            #             self.group_daily_message_counter_list_clear_flag = True  # 标记群聊计数器标记清零逻辑
+            #             logger.debug("group_daily_message_counter clear flag set to True!")
+            #     elif self.group_daily_message_counter_list_clear_flag == True:  # 群聊计数器标记清零逻辑已执行
+            #         self.group_daily_message_counter_list_clear_flag = False  # 群聊计数器标记清零逻辑复位
+            #         logger.debug("group_daily_message_counter clear flag set to False!")
+                
+            # time.sleep(120)  # 休眠120秒
 
 def check_prefix(content, prefix_list):
     if not prefix_list:

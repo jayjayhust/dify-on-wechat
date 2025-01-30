@@ -42,6 +42,9 @@ available_setting = {
     "group_name_white_list": ["ChatGPT测试群", "ChatGPT测试群2"],  # 开启自动回复的群名称列表
     "group_name_keyword_white_list": [],  # 开启自动回复的群名称关键词列表
     "group_chat_in_one_session": ["ChatGPT测试群"],  # 支持会话上下文共享的群名称
+    "group_name_daily_report_white_list": ["ChatGPT测试群", "ChatGPT测试群2"],  # 开启自动群日报的群名称列表
+    "group_name_daily_report_topic": [{"AI-Test": "AI最新进展"}, {"智合内部工作群":"新能源最新进展"}],  # 自动群日报的群名和日报主题字典列表
+    "group_chat_using_private_vector_db": [{"AI-Test": {"database": "ai_database", "collection": "ai_news_public"}}],  # 使用私有数据库(群名和对应的私有库database和collection)
     "nick_name_black_list": [],  # 用户昵称黑名单
     "group_welcome_msg": "",  # 配置新人进群固定欢迎语，不配置则使用随机风格欢迎
     "trigger_by_self": False,  # 是否允许机器人触发
