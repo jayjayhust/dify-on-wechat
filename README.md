@@ -60,6 +60,11 @@ Dify接入微信生态的**详细教程**请查看文章 [**手摸手教你把 D
 # TO DO LIST
 - [ ] **日常事件主动触发** 在chat_channel.py中增加daily routine workflow的支持（开对应的线程）[代码参考](https://github.com/jayjayhust-back/chatgpt-on-wechat/blob/master/channel/chat_channel.py#L70)
 - [ ] **日常事件插件集成** DifyTimeTask 是一个基于 dify-on-wechat 的定时任务插件[代码参考](https://github.com/cm04918/difytimetask)
+<details><summary><strong>群聊中添加定时任务的指令</strong></summary>
+
+- $time 每周三 20:00 提醒我开会 group[AI-Test]
+
+</details>
 
 # 交流群
 
