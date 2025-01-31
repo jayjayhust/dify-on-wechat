@@ -60,8 +60,8 @@ class ChatChannel(Channel):
             context["openai_api_key"] = user_data.get("openai_api_key")
             context["gpt_model"] = user_data.get("gpt_model")
             if context.get("isgroup", False):  # 群聊
-                group_name = cmsg.other_user_nickname
-                group_id = cmsg.other_user_id
+                group_name = cmsg.other_user_nickname  # 获取消息的群名
+                group_id = cmsg.other_user_id  # 获取消息的群id
                 context["group_name"] = group_name
 
                 group_name_white_list = config.get("group_name_white_list", [])
@@ -413,6 +413,11 @@ class ChatChannel(Channel):
         while True:
             time.sleep(60.0)  # 休眠60秒
             logger.debug("heartbeat thread is running...")
+
+            # # 找到对应群聊，发送信息
+            # reply = Reply(type=ReplyType.TEXT, content="This is a heart beat message")
+            # context = Context(type=ContextType.TEXT, content="")
+            # self._send(reply, context, 3)
 
     # 发送群日推送，单独线程
     def send_greeting(self):

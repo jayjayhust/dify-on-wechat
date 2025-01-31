@@ -59,6 +59,7 @@ Dify接入微信生态的**详细教程**请查看文章 [**手摸手教你把 D
 
 # TO DO LIST
 - [ ] **日常事件主动触发** 在chat_channel.py中增加daily routine workflow的支持（开对应的线程）[代码参考](https://github.com/jayjayhust-back/chatgpt-on-wechat/blob/master/channel/chat_channel.py#L70)
+- [ ] **日常事件插件改写** 参考chatgpt-on-wechat插件timetask[代码参考](https://github.com/haikerapples/timetask)
 
 # 交流群
 
@@ -124,7 +125,7 @@ gewechat相关配置如下，注意**channel_type设置为gewechat**
 
 > 本机ip是指**局域网ip**或**公网ip**，可通过`ipconfig`或`ifconfig`命令查看
 > 
-> 对与gewechat_callback_url，ip不能填`127.0.0.1`或`localhost`，否则会报错
+> 对于gewechat_callback_url，ip不能填`127.0.0.1`或`localhost`，否则会报错
 > 
 > `9919`端口是dify-on-wechat服务监听的端口，如果是用docker启动的dify-on-wechat服务,请把`9919`端口映射到宿主机
 

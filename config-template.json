@@ -5,11 +5,11 @@
   "dify_api_base": "https://api.dify.ai/v1",
   "dify_api_key": "",
   "dify_app_type": "chatbot",
-  "gewechat_app_id": "",
   "gewechat_base_url": "http://192.168.10.4:2531/v2/api",
   "gewechat_callback_url": "http://192.168.10.4:9919/v2/api/callback/collect",
   "gewechat_download_url": "http://192.168.10.4:2532/download",
   "gewechat_token": "",
+  "gewechat_app_id": "",
   "group_chat_prefix": [
       "@bot"
   ],

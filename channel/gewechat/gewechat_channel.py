@@ -105,13 +105,14 @@ class GeWeChatChannel(ChatChannel):
         web.httpserver.runsimple(app.wsgifunc(), ("0.0.0.0", port))
 
     def send(self, reply: Reply, context: Context):
-        receiver = context["receiver"]
-        gewechat_message = context.get("msg")
+        logger.info(f"[gewechat] send reply: {reply}, context: {context}")
+        receiver = context["receiver"]  # 获取接收者
+        gewechat_message = context.get("msg")  # 获取gewechat_message
         if reply.type in [ReplyType.TEXT, ReplyType.ERROR, ReplyType.INFO]:
-            reply_text = reply.content
+            reply_text = reply.content  # 获取回复内容
             ats = ""
-            if gewechat_message and gewechat_message.is_group:
-                ats = gewechat_message.actual_user_id
+            if gewechat_message and gewechat_message.is_group:  # 如果是群聊信息
+                ats = gewechat_message.actual_user_id  # 增加@信息
             self.client.post_text(self.app_id, receiver, reply_text, ats)
             logger.info("[gewechat] Do send text to {}: {}".format(receiver, reply_text))
         elif reply.type == ReplyType.VOICE:
