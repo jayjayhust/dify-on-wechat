@@ -210,7 +210,7 @@ available_setting = {
     "Minimax_api_key": "",
     "Minimax_group_id": "",
     "Minimax_base_url": "",
-    "web_port": 9899,
+    "web_port": 9899
 }
 
 

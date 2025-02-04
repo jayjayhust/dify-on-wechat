@@ -4,6 +4,10 @@
             "enabled": true,
             "priority": 999
         },
+        "difytimetask": {
+            "enabled": true,
+            "priority": 950
+        },
         "Keyword": {
             "enabled": true,
             "priority": 900

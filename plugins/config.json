@@ -1,7 +1,7 @@
 {
     "godcmd": {
-        "password": "",
-        "admin_users": []
+        "password": "321",
+        "admin_users": ["57305601276@chatroom"]
     },
     "banwords": {
         "action": "replace",
