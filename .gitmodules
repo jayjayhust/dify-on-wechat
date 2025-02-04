@@ -1,0 +1,3 @@
+[submodule "plugins/difytimetask"]
+	path = plugins/difytimetask
+	url = https://github.com/jayjayhust/difytimetask.git
